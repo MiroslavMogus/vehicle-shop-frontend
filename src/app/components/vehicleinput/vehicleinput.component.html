@@ -1,0 +1,19 @@
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+<h1>List Vehicle Models</h1>
+<form>
+  <div class="form-group">
+    <label for="vehiclemake">Vehicle Make</label>
+    <select id="vehiclemake" class="form-control" (change)="onVehicleMakeChange()" [(ngModel)]="vehicle.make" name="make" >
+    <option value=""></option>
+    <option *ngFor="let v of vehicleMakes" value="{{ v.id }}">{{ v.name }}</option>
+  </select>
+  </div>
+  <div class="form-group">
+    <label for="model">Vehicle Model</label>
+    <option value=""></option>
+    <option *ngFor="let m of vehicleModels" value="{{ m.id }}">{{ m.name }}</option>
+  </div>
+</form>
