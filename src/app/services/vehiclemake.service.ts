@@ -8,7 +8,7 @@ export class VehiclemakeService {
   constructor(private http: Http) { }
 
    getVehicleMakes() {
-        return this.http.get('http://localhost:57878/api/vehiclemakes')
+        return this.http.get('http://127.0.0.1:57877/api/vehiclemakes')
           .map(res => res.json());
      }
 }
