@@ -4,7 +4,6 @@
 &nbsp;
 <h2>Vehicle House Form</h2>
 <p>
-  {{ vehicle | json }}
 </p>
 <form (ngSubmit)="submit()">
   <div class="form-group">
@@ -16,7 +15,7 @@
   </div>
   <div class="form-group">
     <label for="model">Vehicle Model</label>
-    <select id="model" class="form-control" (change)="onVehicleMakeChange()" [(ngModel)]="vehicle.model" name="model" >
+    <select id="model" class="form-control" (change)="onVehicleMakeChange()" [(ngModel)]="vehicle.vehiclemodelid" name="vehiclemodelid" >
     <option value=""></option>
     <option *ngFor="let m of vehicleModels" value="{{ m.id }}">{{ m.name }}</option>
   </select>
@@ -24,7 +23,7 @@
 
   <div class="form-group">
     <label for="vehicle">Vehicle Owner E-mail</label>
-    <input id="vehicle" type="text" class="form-control" [(ngModel)]="vehicle.owneremail" name="vehicle" #vehicleMModel="ngModel">
+    <input id="vehicle" type="text" class="form-control" [(ngModel)]="vehicle.owneremail" name="vehicle" #vehicleModel="ngModel">
     </div>
   <button class="btn btn-primary">Save</button>
 </form>
