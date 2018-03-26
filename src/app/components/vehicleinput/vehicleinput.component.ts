@@ -18,13 +18,21 @@ export class VehicleInputComponent implements OnInit {
     this.vehicleMakeService.getVehicleMakes().subscribe(vehicleMakes => {
       this.vehicleMakes = vehicleMakes;
 
-      console.log('Vehicle Makes', this.vehicleMakes);
+      // console.log('Vehicle Makes', this.vehicleMakes);
+      
     });
+  }
+
+  submit() {
+    this.vehicleMakeService.create(this.vehicle)
+      .subscribe(x => console.log(x));
   }
 
   onVehicleMakeChange() {
     let selectedVehicleMake = this.vehicleMakes.find(m => m.id == this.vehicle.make);
     this.vehicleModels = selectedVehicleMake.vehicleModels;
-    console.log('Vehicle', this.vehicle);
+    
+    //console.log('Vehicle', this.vehicle);
+
   }
 }
