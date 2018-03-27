@@ -1,0 +1,28 @@
+<div class="page-header">
+  <h1>Vehicle database<small></small></h1> 
+  <p> 
+  </p>
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Vehicle Make</th>
+      <th>Vehicle Model</th>
+      <th>Contact E-mail</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let v of vehicles">
+      <td>{{ v.id }}</td>
+      <td>{{ v.vehicleMake.name }}</td>
+      <td>{{ v.vehicleModel.name }}</td>
+      <td>{{ v.ownerEmail }}</td>
+      <td>
+        <a [routerLink]="['/vehicles/', v.id]">View</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<a [routerLink]="['/vehicles/new']" class="btn btn-primary btn-sm">Add New Vehicle</a>
