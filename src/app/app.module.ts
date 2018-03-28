@@ -28,6 +28,7 @@ import { VehicleTableComponent } from './components/vehicletable/vehicletable.co
     RouterModule.forRoot([
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'vehicles/new', component: VehicleInputComponent },
+      { path: 'vehicles/:id', component: VehicleInputComponent },
       { path: 'vehicles', component: VehicleTableComponent },
       { path: 'home', component: HomeComponent },
       { path: '**', redirectTo: 'home' }

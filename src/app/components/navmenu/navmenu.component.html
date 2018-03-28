@@ -22,7 +22,7 @@
                         <span class='glyphicon glyphicon-plus'></span> Add Vehicle
                     </a>
                 </li>
-                <li [routerLinkActive]="['link-active']">
+                <li [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{exact: true}">
                     <a [routerLink]="['/vehicles']">
                         <span class='glyphicon glyphicon-th-list'></span> List Vehicles
                     </a>

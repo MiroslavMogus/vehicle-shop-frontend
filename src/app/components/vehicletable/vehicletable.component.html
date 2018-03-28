@@ -3,6 +3,13 @@
   <p> 
   </p>
 </div>
+<div class="form-group">
+  <label for="vehiclemake">Vehicle Make</label>
+  <select id="vehiclemake" class="form-control" [(ngModel)]="filter.makeid" (change)="onFilterChange()">
+    <option value=""></option>
+    <option *ngFor="let m of vehiclemakes" value="{{ m.id }}">{{ m.name }}</option>
+  </select>
+</div>
 <table class="table">
   <thead>
     <tr>
