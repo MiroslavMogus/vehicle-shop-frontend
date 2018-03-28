@@ -10,6 +10,7 @@ import { VehiclemakeService } from './services/vehiclemake.service';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
 import { VehicleInputComponent } from './components/vehicleinput/vehicleinput.component';
+import { VehicleeditComponent } from './components/vehicleedit/vehicleedit.component';
 import { VehicleTableComponent } from './components/vehicletable/vehicletable.component';
 
 
@@ -19,6 +20,7 @@ import { VehicleTableComponent } from './components/vehicletable/vehicletable.co
     NavMenuComponent,
     HomeComponent,
     VehicleInputComponent,
+    VehicleeditComponent,
     VehicleTableComponent
   ],
   imports: [
@@ -28,7 +30,7 @@ import { VehicleTableComponent } from './components/vehicletable/vehicletable.co
     RouterModule.forRoot([
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'vehicles/new', component: VehicleInputComponent },
-      { path: 'vehicles/:id', component: VehicleInputComponent },
+      { path: 'vehicles/:id', component: VehicleeditComponent },
       { path: 'vehicles', component: VehicleTableComponent },
       { path: 'home', component: HomeComponent },
       { path: '**', redirectTo: 'home' }

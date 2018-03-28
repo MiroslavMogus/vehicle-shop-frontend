@@ -1,0 +1,62 @@
+import { inject } from '@angular/core/testing';
+import { VehiclemakeService } from '../../services/vehiclemake.service';
+import { VehicleService } from '../../services/vehicle.service';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+@Component({
+  selector: 'app-vehicleedit',
+  templateUrl: './vehicleedit.component.html',
+  styleUrls: ['./vehicleedit.component.css']
+})
+export class VehicleeditComponent implements OnInit {
+  defaultValue: any;
+  vehicleMakes: any[];
+  vehicleModels: any[];
+  vehicle: any = {};
+  values: any = {};
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private vehicleMakeService: VehiclemakeService,
+    private vehicleService: VehicleService
+  ) {
+    route.params.subscribe(p => {
+      this.vehicle.id = +p['id'];
+    });
+  }
+
+  ngOnInit() {
+    this.vehicleService.getVehicle(this.vehicle.id).subscribe(v => {
+      this.vehicle = v;
+
+      this.vehicle.vehiclemakeid = this.vehicle.vehicleMakeId;
+
+      this.onVehicleMakeChange();
+
+    });
+
+    this.vehicleMakeService.getVehicleMakes().subscribe(vehicleMakes => {
+      this.vehicleMakes = vehicleMakes;
+
+      console.log('Vehicle Makes', this.vehicleMakes);
+    });
+  }
+
+  submit() {
+    this.vehicleService.create(this.vehicle).subscribe(x => console.log(x));
+  }
+
+  onVehicleMakeChange() {
+    let selectedVehicleMake = this.vehicleMakes.find(
+      m => m.id === this.vehicle.vehiclemakeid
+    );
+    this.vehicleModels = selectedVehicleMake.vehicleModels;
+    console.log('Vehicle', this.vehicle);
+  }
+
+  onVehicleModelChange() {
+    console.log('Vehicle', this.vehicle);
+  }
+}

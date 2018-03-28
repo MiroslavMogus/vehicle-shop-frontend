@@ -8,7 +8,7 @@ export class VehicleService {
   constructor(private http: Http) {}
 
   create(vehicle) {
-    return this.http.post(this.vehiclesRoot + '/', vehicle).map(res => res.json());
+    return this.http.post(this.vehiclesRoot, vehicle).map(res => res.json());
   }
 
   getVehicles() {
