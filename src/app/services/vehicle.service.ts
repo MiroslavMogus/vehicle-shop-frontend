@@ -4,11 +4,16 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class VehicleService {
-  private readonly vehiclesRoot = 'http://localhost:5787/api/vehicles';
+  private readonly vehiclesRoot = 'http://localhost:5787/api/vehicles/';
   constructor(private http: Http) {}
 
   create(vehicle) {
     return this.http.post(this.vehiclesRoot, vehicle).map(res => res.json());
+  }
+
+  update(putObject) {
+    // tslint:disable-next-line:max-line-length
+    return this.http.put(this.vehiclesRoot + putObject.id, putObject).map(res => res.json());
   }
 
   getVehicles() {
@@ -16,6 +21,6 @@ export class VehicleService {
   }
 
   getVehicle(id) {
-    return this.http.get(this.vehiclesRoot + '/' + id).map(res => res.json());
+    return this.http.get(this.vehiclesRoot + id).map(res => res.json());
   }
 }

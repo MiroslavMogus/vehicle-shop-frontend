@@ -15,6 +15,7 @@ export class VehicleeditComponent implements OnInit {
   vehicleModels: any[];
   vehicle: any = {};
   values: any = {};
+  putObject: any = {};
 
   constructor(
     private route: ActivatedRoute,
@@ -22,35 +23,34 @@ export class VehicleeditComponent implements OnInit {
     private vehicleMakeService: VehiclemakeService,
     private vehicleService: VehicleService
   ) {
+
     route.params.subscribe(p => {
       this.vehicle.id = +p['id'];
     });
   }
-
   ngOnInit() {
     this.vehicleService.getVehicle(this.vehicle.id).subscribe(v => {
       this.vehicle = v;
-
       this.vehicle.vehiclemakeid = this.vehicle.vehicleMakeId;
-
-      this.onVehicleMakeChange();
-
     });
 
     this.vehicleMakeService.getVehicleMakes().subscribe(vehicleMakes => {
       this.vehicleMakes = vehicleMakes;
-
       console.log('Vehicle Makes', this.vehicleMakes);
     });
   }
 
   submit() {
-    this.vehicleService.create(this.vehicle).subscribe(x => console.log(x));
+    this.putObject.id = this.vehicle.id;
+    this.putObject.owneremail = this.vehicle.owneremail;
+    this.putObject.vehiclemodelid = 2;
+    this.putObject.vehiclemakeid = 1;
+    this.vehicleService.update(this.putObject).subscribe(x => console.log(x));
   }
 
   onVehicleMakeChange() {
     let selectedVehicleMake = this.vehicleMakes.find(
-      m => m.id === this.vehicle.vehiclemakeid
+      m => m.id == this.vehicle.vehiclemakeid
     );
     this.vehicleModels = selectedVehicleMake.vehicleModels;
     console.log('Vehicle', this.vehicle);
