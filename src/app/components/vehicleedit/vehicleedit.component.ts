@@ -59,4 +59,9 @@ export class VehicleeditComponent implements OnInit {
   onVehicleModelChange() {
     console.log('Vehicle', this.vehicle);
   }
+  delete(vehicle) {
+    if (confirm('Vehicle will be permanently deleted! Are you sure?')) {
+      this.vehicleService.delete(vehicle.id).subscribe(x => console.log(x));
+    }
+  }
 }

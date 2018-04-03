@@ -35,8 +35,9 @@ export class VehicleTableComponent implements OnInit {
     if (this.filter.makeid) {
       vehicles = vehicles.filter(v => v.vehicleMake.id == this.filter.makeid);
     }
-
-
     this.vehicles = vehicles;
+  }
+  delete() {
+    console.log('Just a test');
   }
 }
