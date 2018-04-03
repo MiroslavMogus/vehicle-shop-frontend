@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class VehicleService {
 
-
-
-  private readonly vehiclesRoot = 'http://localhost:5787/api/vehicles/';
+  private readonly vehiclesRoot = environment.apiUrl + '/api/vehicles/';
   constructor(private http: Http) {  }
 
   create(vehicle) {

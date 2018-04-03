@@ -1,25 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class VehiclemakeService {
 
-  private readonly vehiclesRoot = 'http://localhost:5787/api/vehiclemakes';
+  private readonly vehiclesRoot = environment.apiUrl + '/api/vehicles';
+  private readonly vehicleMakesRoot = environment.apiUrl + '/api/vehiclemakes/';
   constructor(private http: Http) { }
 
    getVehicleMakes() {
-        return this.http.get(this.vehiclesRoot)
+        return this.http.get(this.vehicleMakesRoot)
           .map(res => res.json());
      }
 
      create(vehicle) {
-       return this.http.post('http://localhost:5787/api/vehicles', vehicle)
+       return this.http.post(this.vehiclesRoot + this.vehiclesRoot, vehicle)
          .map(res => res.json()) ;
      }
-
-     getVehicleMake(id) {
-      return this.http.get('/api/makes')
-        .map(res => res.json());
-    }
 }
