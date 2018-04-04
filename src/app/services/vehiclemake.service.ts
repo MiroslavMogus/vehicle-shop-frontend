@@ -4,10 +4,11 @@ import 'rxjs/add/operator/map';
 import { environment } from '../../environments/environment';
 
 @Injectable()
-export class VehiclemakeService {
+export class VehicleMakeService {
 
   private readonly vehiclesRoot = environment.apiUrl + '/api/vehicles';
   private readonly vehicleMakesRoot = environment.apiUrl + '/api/vehiclemakes/';
+
   constructor(private http: Http) { }
 
    getVehicleMakes() {

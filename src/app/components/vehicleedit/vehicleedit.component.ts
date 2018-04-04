@@ -1,5 +1,6 @@
+import { Vehicle, SaveVehicle, VehicleMake, VehicleModel } from './../../models/vehicle';
 import { inject } from '@angular/core/testing';
-import { VehiclemakeService } from '../../services/vehiclemake.service';
+import { VehicleMakeService } from '../../services/vehiclemake.service';
 import { VehicleService } from '../../services/vehicle.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,59 +10,84 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './vehicleedit.component.html',
   styleUrls: ['./vehicleedit.component.css']
 })
-export class VehicleeditComponent implements OnInit {
-  defaultValue: any;
-  vehicleMakes: any[];
-  vehicleModels: any[];
-  vehicle: any = {};
-  values: any = {};
-  putObject: any = {};
+export class VehicleEditComponent implements OnInit {
+  models: any[];
+  makes: any[];
+  vehicleModels: VehicleModel = {
+    id: 0,
+    name: ''
+  };
+  vehicleMakes: VehicleMake = {
+    id: 0,
+    name: '',
+    vehicleModel: this.vehicleModels
+  };
+  vehicle: SaveVehicle = {
+    id: 0,
+    vehiclemakeid: 0,
+    vehiclemodelid: 0,
+    vehicleModelId: 0,
+    owneremail: '',
+    ownerEmail: '',
+    vehicleMakeId: 0,
+    vehicleMake: this.vehicleMakes
+  };
+
+  submitObject: any = {};
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private vehicleMakeService: VehiclemakeService,
+    private vehicleMakeService: VehicleMakeService,
     private vehicleService: VehicleService
   ) {
-
     route.params.subscribe(p => {
       this.vehicle.id = +p['id'];
     });
   }
   ngOnInit() {
-    this.vehicleService.getVehicle(this.vehicle.id).subscribe(v => {
+      this.vehicleService.getVehicle(this.vehicle.id).subscribe(v => {
       this.vehicle = v;
-      this.vehicle.vehiclemakeid = this.vehicle.vehicleMakeId;
     });
+      this.vehicleMakeService.getVehicleMakes().subscribe(makes => {
+      this.makes = makes;
+      this.vehicle.vehicleMake = this.makes.find(m => m.id == this.vehicle.vehiclemakeid);
+      console.log(this.vehicle.vehicleMake);
+    });
+    this.initValues();
+  }
 
-    this.vehicleMakeService.getVehicleMakes().subscribe(vehicleMakes => {
-      this.vehicleMakes = vehicleMakes;
-      console.log('Vehicle Makes', this.vehicleMakes);
-    });
+  initValues() {
+    this.vehicle.vehiclemakeid = this.vehicle.vehicleMakeId;
   }
 
   submit() {
-    this.putObject.id = this.vehicle.id;
-    this.putObject.owneremail = this.vehicle.owneremail;
-    this.putObject.vehiclemodelid = 2;
-    this.putObject.vehiclemakeid = 1;
-    this.vehicleService.update(this.putObject).subscribe(x => console.log(x));
+    this.submitObject.id = this.vehicle.id;
+    this.submitObject.owneremail = this.vehicle.owneremail;
+    this.submitObject.vehiclemodelid = this.vehicle.vehicleModelId;
+    this.submitObject.vehiclemakeid = this.vehicle.vehicleMakeId;
+    this.vehicleService.update(this.submitObject).subscribe(x => console.log(x));
   }
 
   onVehicleMakeChange() {
-    let selectedVehicleMake = this.vehicleMakes.find(
-      m => m.id == this.vehicle.vehiclemakeid
-    );
-    this.vehicleModels = selectedVehicleMake.vehicleModels;
-    console.log('Vehicle', this.vehicle);
+    var selectedMake = this.makes.find(m => m.id == this.vehicle.vehiclemakeid);
+    //console.log(selectedMake);
+    this.models = selectedMake ? selectedMake.vehicleModels : [];
+    this.vehicle.vehicleMakeId = selectedMake.id;
+    //this.vehicle.vehicleModelId = ;
   }
 
   onVehicleModelChange() {
-    console.log('Vehicle', this.vehicle);
+    var selectedModel = this.models.find(m => m.id == this.vehicle.vehiclemodelid);
+    this.vehicle.vehicleModelId = selectedModel.id;
   }
+
+  onVehicleEmailChange() {
+  }
+
   delete(vehicle) {
     if (confirm('Vehicle will be permanently deleted! Are you sure?')) {
-      this.vehicleService.delete(vehicle.id).subscribe(x => console.log(x));
+      this.vehicleService.delete(vehicle.id).subscribe();
     }
   }
 }

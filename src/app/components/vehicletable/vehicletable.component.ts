@@ -1,6 +1,6 @@
 import { VehicleService } from './../../services/vehicle.service';
 import { inject } from '@angular/core/testing';
-import { VehiclemakeService } from '../../services/vehiclemake.service';
+import { VehicleMakeService } from '../../services/vehiclemake.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -16,7 +16,7 @@ export class VehicleTableComponent implements OnInit {
 
   constructor(
     private vehicleService: VehicleService,
-    private vehiclemakeService: VehiclemakeService
+    private vehiclemakeService: VehicleMakeService
   ) {}
 
   ngOnInit() {

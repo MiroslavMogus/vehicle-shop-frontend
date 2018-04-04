@@ -6,11 +6,11 @@ import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { VehiclemakeService } from './services/vehiclemake.service';
+import { VehicleMakeService } from './services/vehiclemake.service';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
 import { VehicleInputComponent } from './components/vehicleinput/vehicleinput.component';
-import { VehicleeditComponent } from './components/vehicleedit/vehicleedit.component';
+import { VehicleEditComponent } from './components/vehicleedit/vehicleedit.component';
 import { VehicleTableComponent } from './components/vehicletable/vehicletable.component';
 
 
@@ -20,7 +20,7 @@ import { VehicleTableComponent } from './components/vehicletable/vehicletable.co
     NavMenuComponent,
     HomeComponent,
     VehicleInputComponent,
-    VehicleeditComponent,
+    VehicleEditComponent,
     VehicleTableComponent
   ],
   imports: [
@@ -30,13 +30,13 @@ import { VehicleTableComponent } from './components/vehicletable/vehicletable.co
     RouterModule.forRoot([
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'vehicles/new', component: VehicleInputComponent },
-      { path: 'vehicles/:id', component: VehicleeditComponent },
+      { path: 'vehicles/:id', component: VehicleEditComponent },
       { path: 'vehicles', component: VehicleTableComponent },
       { path: 'home', component: HomeComponent },
       { path: '**', redirectTo: 'home' }
     ])
   ],
-  providers: [VehiclemakeService, VehicleService],
+  providers: [VehicleMakeService, VehicleService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

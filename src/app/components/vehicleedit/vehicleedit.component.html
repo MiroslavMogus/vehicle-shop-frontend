@@ -7,19 +7,19 @@
     <label for="make">Vehicle Make</label>
     <select [value]="vehicle" id="make" class="form-control" (change)="onVehicleMakeChange()" [(ngModel)]="vehicle.vehiclemakeid" name="vehiclemakeid">
       <option value=""></option>
-      <option *ngFor="let v of vehicleMakes" value="{{ v.id }}" [selected]="v.id">{{ v.name }}</option>
+      <option *ngFor="let m of makes" value="{{ m.id }}">{{ m.name }}</option>
     </select>
   </div>
   <div class="form-group">
     <label for="model">Vehicle Model</label>
-    <select id="model" class="form-control" (change)="onVehicleModelChange()" [(ngModel)]="vehicle.vehiclemodelid" name="vehiclemodelid">
+    <select [value]="vehicle" id="model" class="form-control" (change)="onVehicleModelChange()" [(ngModel)]="vehicle.vehiclemodelid" name="vehiclemodelid">
       <option value=""></option>
-      <option *ngFor="let m of vehicleModels" value="{{ m.id }}" [selected]="m.id">{{ m.name }}</option>
+      <option *ngFor="let m of models" value="{{ m.id }}">{{ m.name }}</option>
     </select>
   </div>
   <div class="form-group">
     <label for="vehicle">Vehicle Owner E-mail</label>
-    <input id="vehicle" type="text" class="form-control" [(ngModel)]="vehicle.owneremail" name="owneremail">
+    <input id="vehicle" type="text" class="form-control" (change)="onVehicleEmailChange()" [(ngModel)]="vehicle.owneremail" name="owneremail">
   </div>
   <button class="btn btn-primary">Save </button>
   <button class="btn btn-danger" type="button" (click)="delete(vehicle)">Delete</button>

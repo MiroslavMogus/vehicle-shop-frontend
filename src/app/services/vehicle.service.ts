@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions } from '@angular/http';
+import { Http, RequestOptions, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { environment } from '../../environments/environment';
 
@@ -19,18 +19,18 @@ export class VehicleService {
   }
 
   delete(id) {
-    let headers = new Headers({
+    const headers = new Headers({
       'Content-Type': 'application/json'
     });
 
-    let options = new RequestOptions({
+    const options = new RequestOptions({
       headers: headers,
       body: {
         id: 123
       }
     });
 
-    return this.http.delete(this.vehiclesRoot + id, options).map(res => res.json().data);
+    return this.http.delete(this.vehiclesRoot + id, options).map(res => res.json());
   }
 
   getVehicles() {

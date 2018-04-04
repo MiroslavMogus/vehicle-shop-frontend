@@ -1,5 +1,6 @@
+import { Vehicle } from './../../models/vehicle';
 import { inject } from '@angular/core/testing';
-import { VehiclemakeService } from '../../services/vehiclemake.service';
+import { VehicleMakeService } from '../../services/vehiclemake.service';
 import { VehicleService } from '../../services/vehicle.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -11,23 +12,23 @@ import { Component, OnInit } from '@angular/core';
 export class VehicleInputComponent implements OnInit {
   vehicleMakes: any[];
   vehicleModels: any[];
-  vehicle: any = {};
+  vehicle: Vehicle;
 
   constructor(
-    private vehicleMakeService: VehiclemakeService,
+    private vehicleMakeService: VehicleMakeService,
     private vehicleService: VehicleService
   ) {}
 
   ngOnInit() {
+      this.vehicle = { vehiclemakeid: 0, vehiclemodelid: 0, owneremail: ''};
       this.vehicleMakeService.getVehicleMakes().subscribe(vehicleMakes => {
       this.vehicleMakes = vehicleMakes;
-
-      console.log('Vehicle Makes', this.vehicleMakes);
     });
   }
 
   submit() {
-    this.vehicleService.create(this.vehicle).subscribe(x => console.log(x));
+    this.vehicleService.create(this.vehicle).subscribe();
+    console.log(this.vehicle);
   }
 
   onVehicleMakeChange() {
@@ -35,10 +36,22 @@ export class VehicleInputComponent implements OnInit {
       m => m.id == this.vehicle.vehiclemakeid
     );
     this.vehicleModels = selectedVehicleMake.vehicleModels;
-    console.log('Vehicle', this.vehicle);
+    console.log(this.vehicle);
   }
 
   onVehicleModelChange() {
-    console.log('Vehicle', this.vehicle);
+    let selectedVehicleMake = this.vehicleMakes.find(
+      m => m.id == this.vehicle.vehiclemakeid
+    );
+    this.vehicleModels = selectedVehicleMake.vehicleModels;
+    console.log(this.vehicle);
+  }
+
+  onVehicleEmailChange() {
+    let selectedVehicleMake = this.vehicleMakes.find(
+      m => m.id == this.vehicle.vehiclemakeid
+    );
+    this.vehicleModels = selectedVehicleMake.vehicleModels;
+    console.log(this.vehicle);
   }
 }
