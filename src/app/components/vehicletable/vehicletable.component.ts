@@ -27,6 +27,13 @@ export class VehicleTableComponent implements OnInit {
     this.vehicleService
       .getVehicles()
       .subscribe(vehicles => (this.vehicles = this.allVehicles = vehicles));
+
+    }
+
+  // tslint:disable-next-line:use-life-cycle-interface
+   ngOnChange() {
+    let vehicles = this.allVehicles;
+    this.vehicles = vehicles;
   }
 
   onFilterChange() {
@@ -38,6 +45,5 @@ export class VehicleTableComponent implements OnInit {
     this.vehicles = vehicles;
   }
   delete() {
-    console.log('Just a test');
   }
 }

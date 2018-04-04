@@ -3,6 +3,7 @@ import { inject } from '@angular/core/testing';
 import { VehicleMakeService } from '../../services/vehiclemake.service';
 import { VehicleService } from '../../services/vehicle.service';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-vehicleinput',
@@ -15,6 +16,8 @@ export class VehicleInputComponent implements OnInit {
   vehicle: Vehicle;
 
   constructor(
+    private route: ActivatedRoute,
+    private router: Router,
     private vehicleMakeService: VehicleMakeService,
     private vehicleService: VehicleService
   ) {}
@@ -28,7 +31,7 @@ export class VehicleInputComponent implements OnInit {
 
   submit() {
     this.vehicleService.create(this.vehicle).subscribe();
-    console.log(this.vehicle);
+    this.router.navigate(['/vehicles/']);
   }
 
   onVehicleMakeChange() {
@@ -36,7 +39,6 @@ export class VehicleInputComponent implements OnInit {
       m => m.id == this.vehicle.vehiclemakeid
     );
     this.vehicleModels = selectedVehicleMake.vehicleModels;
-    console.log(this.vehicle);
   }
 
   onVehicleModelChange() {
@@ -44,7 +46,6 @@ export class VehicleInputComponent implements OnInit {
       m => m.id == this.vehicle.vehiclemakeid
     );
     this.vehicleModels = selectedVehicleMake.vehicleModels;
-    console.log(this.vehicle);
   }
 
   onVehicleEmailChange() {
@@ -52,6 +53,5 @@ export class VehicleInputComponent implements OnInit {
       m => m.id == this.vehicle.vehiclemakeid
     );
     this.vehicleModels = selectedVehicleMake.vehicleModels;
-    console.log(this.vehicle);
   }
 }

@@ -52,7 +52,6 @@ export class VehicleEditComponent implements OnInit {
       this.vehicleMakeService.getVehicleMakes().subscribe(makes => {
       this.makes = makes;
       this.vehicle.vehicleMake = this.makes.find(m => m.id == this.vehicle.vehiclemakeid);
-      console.log(this.vehicle.vehicleMake);
     });
     this.initValues();
   }
@@ -61,12 +60,16 @@ export class VehicleEditComponent implements OnInit {
     this.vehicle.vehiclemakeid = this.vehicle.vehicleMakeId;
   }
 
-  submit() {
+  async  submit() {
     this.submitObject.id = this.vehicle.id;
     this.submitObject.owneremail = this.vehicle.owneremail;
     this.submitObject.vehiclemodelid = this.vehicle.vehicleModelId;
     this.submitObject.vehiclemakeid = this.vehicle.vehicleMakeId;
-    this.vehicleService.update(this.submitObject).subscribe(x => console.log(x));
+    await this.vehicleService.update(this.submitObject).subscribe(
+      vehicle => {
+        this.vehicle = vehicle;
+        this.router.navigate(['/vehicles/']);
+      });
   }
 
   onVehicleMakeChange() {
