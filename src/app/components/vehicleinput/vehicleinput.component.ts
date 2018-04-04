@@ -29,9 +29,11 @@ export class VehicleInputComponent implements OnInit {
     });
   }
 
-  submit() {
-    this.vehicleService.create(this.vehicle).subscribe();
-    this.router.navigate(['/vehicles/']);
+  async submit() {
+    await this.vehicleService.create(this.vehicle).subscribe(vehicle => {
+      this.vehicle = vehicle;
+      this.router.navigate(['/vehicles/']);
+    });
   }
 
   onVehicleMakeChange() {
