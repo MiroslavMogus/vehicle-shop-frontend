@@ -13,10 +13,19 @@
 <table class="table">
   <thead>
     <tr>
-      <th>Id</th>
-      <th (click)="sortBy('vehicleMake')">Vehicle Make</th>
-      <th (click)="sortBy('vehicleModel')">Vehicle Model</th>
-      <th (click)="sortBy('ownersEmail')">Contact E-mail</th>
+      <th *ngFor="let c of columns">
+        <div *ngIf="c.isSortable" (click)="sortBy(c.key)">
+        {{ c.title }}
+        <i *ngIf="query.sortBy === c.key"
+           class="glyphicon"
+           [class.glyphicon-chevron-up]="query.isSortAscending"
+           [class.glyphicon-chevron-down]="!query.isSortAscending"
+           ></i>
+        </div>
+        <div *ngIf="!c.isSortable">
+          {{ c.title }}
+        </div>
+      </th>
       <th></th>
     </tr>
   </thead>

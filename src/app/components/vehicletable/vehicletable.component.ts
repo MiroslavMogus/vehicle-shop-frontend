@@ -13,6 +13,13 @@ export class VehicleTableComponent implements OnInit {
   vehicles: Vehicle[];
   vehiclemakes: any[];
   query: any = {};
+  columns = [
+    { title: 'Id' },
+    { title: 'Vehicle Make', key: 'vehicleMake', isSortable: true },
+    { title: 'Vehicle Model', key: 'vehicleModel', isSortable: true },
+    { title: 'Contact Email', key: 'ownersEmail', isSortable: true },
+    { }
+  ];
 
   constructor(
     private vehicleService: VehicleService,
@@ -35,7 +42,7 @@ export class VehicleTableComponent implements OnInit {
 
   sortBy(columnName) {
     if (this.query.sortBy === columnName) {
-      this.query.isSortAscending = false;
+      this.query.isSortAscending = !this.query.isSortAscending;
     } else {
       this.query.sortBy = columnName;
       this.query.isSortAscending = true;
