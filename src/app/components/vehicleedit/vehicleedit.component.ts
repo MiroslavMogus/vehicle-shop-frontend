@@ -60,7 +60,7 @@ export class VehicleEditComponent implements OnInit {
     this.vehicle.vehiclemakeid = this.vehicle.vehicleMakeId;
   }
 
-  async  submit() {
+  async submit() {
     this.submitObject.id = this.vehicle.id;
     this.submitObject.owneremail = this.vehicle.owneremail;
     this.submitObject.vehiclemodelid = this.vehicle.vehicleModelId;

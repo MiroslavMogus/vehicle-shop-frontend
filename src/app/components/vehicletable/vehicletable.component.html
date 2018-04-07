@@ -5,7 +5,7 @@
 </div>
 <div class="form-group">
   <label for="vehiclemake">Vehicle Make</label>
-  <select id="vehiclemake" class="form-control" [(ngModel)]="filter.makeid" (change)="onFilterChange()">
+  <select id="vehiclemake" class="form-control" [(ngModel)]="query.vehiclemakeid" (change)="onFilterChange()">
     <option value=""></option>
     <option *ngFor="let m of vehiclemakes" value="{{ m.id }}">{{ m.name }}</option>
   </select>
@@ -14,9 +14,9 @@
   <thead>
     <tr>
       <th>Id</th>
-      <th>Vehicle Make</th>
-      <th>Vehicle Model</th>
-      <th>Contact E-mail</th>
+      <th (click)="sortBy('vehicleMake')">Vehicle Make</th>
+      <th (click)="sortBy('vehicleModel')">Vehicle Model</th>
+      <th (click)="sortBy('ownersEmail')">Contact E-mail</th>
       <th></th>
     </tr>
   </thead>

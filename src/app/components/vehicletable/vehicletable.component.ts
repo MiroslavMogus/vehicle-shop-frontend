@@ -1,3 +1,4 @@
+import { Vehicle } from './../../models/vehicle';
 import { VehicleService } from './../../services/vehicle.service';
 import { inject } from '@angular/core/testing';
 import { VehicleMakeService } from '../../services/vehiclemake.service';
@@ -9,10 +10,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./vehicletable.component.css']
 })
 export class VehicleTableComponent implements OnInit {
-  vehicles: any[];
-  allVehicles: any[];
+  vehicles: Vehicle[];
   vehiclemakes: any[];
-  filter: any = {};
+  query: any = {};
 
   constructor(
     private vehicleService: VehicleService,
@@ -24,26 +24,34 @@ export class VehicleTableComponent implements OnInit {
       .getVehicleMakes()
       .subscribe(vehiclemakes => (this.vehiclemakes = vehiclemakes));
 
-    this.vehicleService
-      .getVehicles()
-      .subscribe(vehicles => (this.vehicles = this.allVehicles = vehicles));
+    this.loadVehicles();
 
     }
 
   // tslint:disable-next-line:use-life-cycle-interface
    ngOnChange() {
-    let vehicles = this.allVehicles;
-    this.vehicles = vehicles;
+    this.loadVehicles();
+  }
+
+  sortBy(columnName) {
+    if (this.query.sortBy === columnName) {
+      this.query.isSortAscending = false;
+    } else {
+      this.query.sortBy = columnName;
+      this.query.isSortAscending = true;
+    }
+      this.loadVehicles();
+  }
+
+  loadVehicles() {
+    this.vehicleService.getVehicles(this.query)
+    .subscribe(vehicles => this.vehicles = vehicles);
   }
 
   onFilterChange() {
-    let vehicles = this.allVehicles;
-
-    if (this.filter.makeid) {
-      vehicles = vehicles.filter(v => v.vehicleMake.id == this.filter.makeid);
-    }
-    this.vehicles = vehicles;
+    this.loadVehicles();
   }
+
   delete() {
   }
 }
