@@ -76,7 +76,6 @@ export class VehicleTableComponent implements OnInit {
  * @return      void the vehicles are updated from API
  */
   loadVehicles(page) {
-    //console.log(page);
     if (isNaN(page)) {
       this.query.page = 1;
       this.query.pageSize = 3;
@@ -88,7 +87,6 @@ export class VehicleTableComponent implements OnInit {
       this.query.sortBy = this.query.sortBy;
       this.query.isSortAscending = this.query.isSortAscending;
     }
-    console.log(this.query);
     this.vehicleService
       .getVehicles(this.query)
       .subscribe(vehicles => (this.vehicles = vehicles));

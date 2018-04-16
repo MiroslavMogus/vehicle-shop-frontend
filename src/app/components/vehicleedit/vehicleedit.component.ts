@@ -74,7 +74,6 @@ export class VehicleEditComponent implements OnInit {
 
   onVehicleMakeChange() {
     var selectedMake = this.makes.find(m => m.id == this.vehicle.vehiclemakeid);
-    //console.log(selectedMake);
     this.models = selectedMake ? selectedMake.vehicleModels : [];
     this.vehicle.vehicleMakeId = selectedMake.id;
     //this.vehicle.vehicleModelId = ;

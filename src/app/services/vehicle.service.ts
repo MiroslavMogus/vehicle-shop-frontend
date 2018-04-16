@@ -39,7 +39,7 @@ export class VehicleService {
 
   toQueryString(obj) {
     let elements = [];
-    console.log(obj);
+
     for (var property in obj) {
       let value = obj[property];
       if (value != null && value != undefined)
