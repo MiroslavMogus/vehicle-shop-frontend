@@ -45,6 +45,10 @@ export class VehicleEditComponent implements OnInit {
       this.vehicle.id = +p['id'];
     });
   }
+
+/**
+ * Loading of vehicles and vehicle makes.
+ */
   ngOnInit() {
       this.vehicleService.getVehicle(this.vehicle.id).subscribe(v => {
       this.vehicle = v;
@@ -60,6 +64,10 @@ export class VehicleEditComponent implements OnInit {
     this.vehicle.vehiclemakeid = this.vehicle.vehicleMakeId;
   }
 
+/**
+ * submitObject is used to send only required data
+ * from form to backend for saving to database.
+ */
   async submit() {
     this.submitObject.id = this.vehicle.id;
     this.submitObject.owneremail = this.vehicle.owneremail;
@@ -72,6 +80,10 @@ export class VehicleEditComponent implements OnInit {
       });
   }
 
+/**
+ * Dropdown change is detected here and vehicle makes are populated
+ * with associated models.
+ */
   onVehicleMakeChange() {
     var selectedMake = this.makes.find(m => m.id == this.vehicle.vehiclemakeid);
     this.models = selectedMake ? selectedMake.vehicleModels : [];
@@ -79,6 +91,10 @@ export class VehicleEditComponent implements OnInit {
     //this.vehicle.vehicleModelId = ;
   }
 
+/**
+ * Dropdown change is detected here and vehicle models are populated
+ * with associated vehicle makes.
+ */
   onVehicleModelChange() {
     var selectedModel = this.models.find(m => m.id == this.vehicle.vehiclemodelid);
     this.vehicle.vehicleModelId = selectedModel.id;
@@ -87,6 +103,10 @@ export class VehicleEditComponent implements OnInit {
   onVehicleEmailChange() {
   }
 
+/**
+ * Delete button logic is executed here and vehicle is deleted
+ * according to vehicle id.
+ */
   delete(vehicle) {
     if (confirm('Vehicle will be permanently deleted! Are you sure?')) {
       this.vehicleService.delete(vehicle.id).subscribe();

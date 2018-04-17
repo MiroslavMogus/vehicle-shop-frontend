@@ -2,9 +2,10 @@ import { Vehicle } from "./../../models/vehicle";
 import { VehicleService } from "./../../services/vehicle.service";
 import { inject } from "@angular/core/testing";
 import { VehicleMakeService } from "../../services/vehiclemake.service";
-import { Component, OnInit, SimpleChanges } from "@angular/core";
+import { Component, OnInit, SimpleChanges, Input } from "@angular/core";
 import { NgbModule, NgbPagination } from "@ng-bootstrap/ng-bootstrap";
 import { EventEmitter } from "events";
+import { toInteger } from "@ng-bootstrap/ng-bootstrap/util/util";
 
 @Component({
   selector: "app-vehicletable",
@@ -13,10 +14,13 @@ import { EventEmitter } from "events";
 })
 export class VehicleTableComponent implements OnInit {
   test: EventEmitter;
-  page: NgbPagination;
+  page: number;
+  totalVehicles: number;
+  total = 1;
   vehicles: Vehicle[];
   vehiclemakes: any[];
   query: any = {};
+  currentPage: number;
 
  /**
   * columns object to detect which columns inside table are sortable
@@ -39,11 +43,39 @@ export class VehicleTableComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.getTotalVehicles();
+
     this.vehiclemakeService
       .getVehicleMakes()
       .subscribe(vehiclemakes => (this.vehiclemakes = vehiclemakes));
-
     this.loadVehicles(this.page);
+    this.setNumberOfPages();
+  }
+
+  getTotalVehicles() {
+    this.vehicleService
+    .getTotalVehicles()
+    .subscribe(total => (this.total = total));
+  }
+
+/**
+ * This function is used to calculate pagination.
+ * It will set how much pages will be showed at
+ * the bottom of table.
+ */
+  setNumberOfPages() {
+    if (this.total % 10 !== 0) {
+      // tslint:disable-next-line:radix
+      let numberToSet = toInteger(this.total);
+      numberToSet = numberToSet / 10;
+      numberToSet = numberToSet + 1;
+      numberToSet = numberToSet * 10;
+      this.total = numberToSet;
+  } else {
+      // tslint:disable-next-line:prefer-const
+      let numberToSet = this.total;
+      this.total = numberToSet;
+  }
   }
 
  /**
@@ -62,6 +94,7 @@ export class VehicleTableComponent implements OnInit {
       this.query.sortBy = columnName;
       this.query.isSortAscending = true;
     }
+    this.page = 1;
     this.loadVehicles(this.page);
   }
 
@@ -78,15 +111,16 @@ export class VehicleTableComponent implements OnInit {
   loadVehicles(page) {
     if (isNaN(page)) {
       this.query.page = 1;
-      this.query.pageSize = 3;
+      this.query.pageSize = 10;
       this.query.sortBy = 'vehicleMake';
       this.query.isSortAscending = true;
     } else {
       this.query.page = page;
-      this.query.pageSize = 3;
+      this.query.pageSize = 10;
       this.query.sortBy = this.query.sortBy;
       this.query.isSortAscending = this.query.isSortAscending;
     }
+    this.currentPage = page;
     this.vehicleService
       .getVehicles(this.query)
       .subscribe(vehicles => (this.vehicles = vehicles));

@@ -34,7 +34,14 @@ export class VehicleService {
   }
 
   getVehicles(filter) {
-    return this.http.get(this.vehiclesRoot + '?' + this.toQueryString(filter)).map(res => res.json());
+    const vehicles = this.http.get(this.vehiclesRoot + '?' + this.toQueryString(filter)).map(res => res.json());
+    return vehicles;
+  }
+
+  getTotalVehicles() {
+    // tslint:disable-next-line:prefer-const
+    let total = this.http.get(this.vehiclesRoot + 'total').map(res => res.json());
+    return total;
   }
 
   toQueryString(obj) {

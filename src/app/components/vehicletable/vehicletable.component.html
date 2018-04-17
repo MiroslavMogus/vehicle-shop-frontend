@@ -41,5 +41,5 @@
     </tr>
   </tbody>
 </table>
-<div><ngb-pagination [collectionSize]="70" (pageChange)="loadVehicles($event)" [(page)]="page" [directionLinks]="false"></ngb-pagination></div>
+<div><ngb-pagination (pageChange)="loadVehicles($event)" [(page)]="page" [(collectionSize)]="total" [directionLinks]="false"></ngb-pagination></div>
 <a [routerLink]="['/vehicles/new']" class="btn btn-primary btn-sm">Add New Vehicle</a>
