@@ -6,7 +6,7 @@ import { environment } from '../../environments/environment';
 @Injectable()
 export class VehicleService {
 
-  private readonly vehiclesRoot = environment.apiUrl + '/api/vehicles';
+  private readonly vehiclesRoot = environment.apiUrl + '/api/vehicles/';
   constructor(private http: Http) {  }
 
   create(vehicle) {

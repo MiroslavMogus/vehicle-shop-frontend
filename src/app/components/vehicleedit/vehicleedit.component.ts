@@ -1,3 +1,4 @@
+import { VehicleTestService } from '../../services/vehicletest.service';
 import { Vehicle, SaveVehicle, VehicleMake, VehicleModel } from './../../models/vehicle';
 import { inject } from '@angular/core/testing';
 import { VehicleMakeService } from '../../services/vehiclemake.service';
@@ -39,7 +40,8 @@ export class VehicleEditComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private vehicleMakeService: VehicleMakeService,
-    private vehicleService: VehicleService
+    private vehicleService: VehicleService,
+    private vehicleTestService: VehicleTestService
   ) {
     route.params.subscribe(p => {
       this.vehicle.id = +p['id'];
@@ -109,7 +111,7 @@ export class VehicleEditComponent implements OnInit {
  */
   delete(vehicle) {
     if (confirm('Vehicle will be permanently deleted! Are you sure?')) {
-      this.vehicleService.delete(vehicle.id).subscribe();
+      this.vehicleTestService.delete(vehicle.id).subscribe();
     }
   }
 }
