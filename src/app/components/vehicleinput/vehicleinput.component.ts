@@ -23,7 +23,7 @@ export class VehicleInputComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-      this.vehicle = { vehiclemakeid: 0, vehiclemodelid: 0, owneremail: ''};
+      this.vehicle = { id: 0, vehiclemakeid: 0, vehiclemodelid: 0, owneremail: '', vehicleMake: null, vehicleModel: null};
       this.vehicleMakeService.getVehicleMakes().subscribe(vehicleMakes => {
       this.vehicleMakes = vehicleMakes;
     });

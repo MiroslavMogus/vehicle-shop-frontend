@@ -6,7 +6,7 @@ import { environment } from '../../environments/environment';
 @Injectable()
 export class VehicleService {
 
-  private readonly vehiclesRoot = environment.apiUrl + '/api/vehicles/';
+  private readonly vehiclesRoot = environment.apiUrl + '/api/vehicles';
   constructor(private http: Http) {  }
 
   create(vehicle) {
@@ -34,13 +34,15 @@ export class VehicleService {
   }
 
   getVehicles(filter) {
+    console.log('filter');
+    console.log(filter);
     const vehicles = this.http.get(this.vehiclesRoot + '?' + this.toQueryString(filter)).map(res => res.json());
     return vehicles;
   }
 
   getTotalVehicles() {
     // tslint:disable-next-line:prefer-const
-    let total = this.http.get(this.vehiclesRoot + 'total').map(res => res.json());
+    let total = this.http.get(this.vehiclesRoot + '/total').map(res => res.json());
     return total;
   }
 

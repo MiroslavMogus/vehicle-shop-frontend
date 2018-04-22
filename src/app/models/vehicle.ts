@@ -1,8 +1,11 @@
+import { Resource } from './resource';
 
-export interface Vehicle {
+export class Vehicle extends Resource {
     vehiclemakeid: number;
     vehiclemodelid: number;
     owneremail: string;
+    vehicleMake: VehicleMake;
+    vehicleModel: VehicleModel;
 }
 
 export interface SaveVehicle {

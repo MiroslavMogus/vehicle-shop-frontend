@@ -1,5 +1,6 @@
 <div class="page-header">
   <h1>Vehicle database<small></small></h1> 
+  {{ vehicle | json }}
   <p> 
   </p>
 </div>
@@ -34,7 +35,7 @@
       <td>{{ v.id }}</td>
       <td>{{ v.vehicleMake.name }}</td>
       <td>{{ v.vehicleModel.name }}</td>
-      <td>{{ v.ownerEmail }}</td>
+      <td>{{ v.owneremail }}</td>
       <td>
         <a [routerLink]="['/vehicles/', v.id]">Edit </a>
       </td>
