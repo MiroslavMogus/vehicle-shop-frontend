@@ -9,7 +9,6 @@ export class VehicleSerializer {
     vehicle.owneremail = json.ownerEmail;
     vehicle.vehicleMake = json.vehicleMake;
     vehicle.vehicleModel = json.vehicleModel;
-    console.log(vehicle);
     return vehicle;
   }
 

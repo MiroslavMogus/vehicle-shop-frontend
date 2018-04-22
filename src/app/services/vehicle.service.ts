@@ -34,8 +34,6 @@ export class VehicleService {
   }
 
   getVehicles(filter) {
-    console.log('filter');
-    console.log(filter);
     const vehicles = this.http.get(this.vehiclesRoot + '?' + this.toQueryString(filter)).map(res => res.json());
     return vehicles;
   }
