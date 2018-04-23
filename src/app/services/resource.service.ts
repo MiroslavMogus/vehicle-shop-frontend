@@ -1,12 +1,12 @@
-import { Serializer } from '../models/serializer';
-import { Resource } from '../models/resource';
-import { HttpClient, HttpHeaders  } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { Injectable, Inject } from '@angular/core';
-import { QueryOptions } from '../models/query-options';
-import { VehicleSerializer } from '../models/vehicleserializer';
-import { map } from 'rxjs/operators';
-import { RequestOptions } from '@angular/http';
+import { Serializer } from "../models/serializer";
+import { Resource } from "../models/resource";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Observable } from "rxjs/Observable";
+import { Injectable, Inject } from "@angular/core";
+import { QueryOptions } from "../models/query-options";
+import { VehicleSerializer } from "../models/vehicleserializer";
+import { map } from "rxjs/operators";
+import { RequestOptions } from "@angular/http";
 
 @Injectable()
 export class ResourceService<T extends Resource> {
@@ -30,23 +30,21 @@ export class ResourceService<T extends Resource> {
   }
 
   delete(id: number) {
-
-    const headers = new HttpHeaders({'Content-Type': 'application/json'});
-
-    return this.httpClient
-      .delete(`${this.url}/${this.endpoint}/${id}`, {headers: headers});
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.httpClient.delete(`${this.url}/${this.endpoint}/${id}`, {
+      headers: headers
+    });
   }
-
-  /* Just for test
-  listVoid(queryOptions: QueryOptions): void {
-     this.httpClient
-      .get(`${this.url}/${this.endpoint}?${queryOptions.toQueryString()}`)
-      .subscribe(data => console.log(data));
-  }
-  */
 
   private convertData(data: any): T[] {
     return data.map(item => this.serializer.fromJson(item));
+  }
+
+  public update(item: T): Observable<T> {
+    return this.httpClient
+      .put<T>(`${this.url}/${this.endpoint}/${item.id}`,
+        this.serializer.toJson(item))
+      .map(data => this.serializer.fromJson(data) as T);
   }
 
   /*
@@ -68,11 +66,6 @@ export class ResourceService<T extends Resource> {
         return this.httpClient
           .get(`${this.url}/${this.endpoint}?${queryOptions.toQueryString()}`)
           .map((data: any) => this.convertData(data.items));
-      }
-
-      delete(id: number) {
-        return this.httpClient
-          .delete(`${this.url}/${this.endpoint}/${id}`);
       }
 
       private convertData(data: any): T[] {

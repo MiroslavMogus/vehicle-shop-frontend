@@ -54,9 +54,11 @@ export class VehicleTableComponent implements OnInit {
     this.getTotalVehicles();
 
     // Get only one vehicle from service
+    /* Just for test
     this.vehicleTestService
       .read(71)
       .subscribe(vehicle => (this.vehicle = vehicle));
+    */
 
     this.vehiclemakeService
       .getVehicleMakes()

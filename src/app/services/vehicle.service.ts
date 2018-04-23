@@ -15,6 +15,7 @@ export class VehicleService {
 
   update(putObject) {
     // tslint:disable-next-line:max-line-length
+    console.log(putObject);
     return this.http.put(this.vehiclesRoot + putObject.id, putObject).map(res => res.json());
   }
 

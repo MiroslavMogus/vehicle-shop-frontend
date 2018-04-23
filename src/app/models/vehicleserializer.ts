@@ -14,7 +14,10 @@ export class VehicleSerializer {
 
   toJson(vehicle: Vehicle): any {
     return {
-      id: vehicle.id
+      id: vehicle.id,
+      vehiclemakeid: vehicle.vehiclemakeid,
+      vehiclemodelid: vehicle.vehiclemodelid,
+      owneremail: vehicle.owneremail
     };
   }
 
