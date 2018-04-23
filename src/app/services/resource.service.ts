@@ -1,12 +1,12 @@
-import { Serializer } from "../models/serializer";
-import { Resource } from "../models/resource";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable } from "rxjs/Observable";
-import { Injectable, Inject } from "@angular/core";
-import { QueryOptions } from "../models/query-options";
-import { VehicleSerializer } from "../models/vehicleserializer";
-import { map } from "rxjs/operators";
-import { RequestOptions } from "@angular/http";
+import { Serializer } from '../models/serializer';
+import { Resource } from '../models/resource';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { Injectable, Inject } from '@angular/core';
+import { QueryOptions } from '../models/query-options';
+import { VehicleSerializer } from '../models/vehicleserializer';
+import { map } from 'rxjs/operators';
+import { RequestOptions } from '@angular/http';
 
 @Injectable()
 export class ResourceService<T extends Resource> {
@@ -42,34 +42,10 @@ export class ResourceService<T extends Resource> {
 
   public update(item: T): Observable<T> {
     return this.httpClient
-      .put<T>(`${this.url}/${this.endpoint}/${item.id}`,
-        this.serializer.toJson(item))
+      .put<T>(
+        `${this.url}/${this.endpoint}/${item.id}`,
+        this.serializer.toJson(item)
+      )
       .map(data => this.serializer.fromJson(data) as T);
   }
-
-  /*
-
-      public update(item: T): Observable<T> {
-        return this.httpClient
-          .put<T>(`${this.url}/${this.endpoint}/${item.id}`,
-            this.serializer.toJson(item))
-          .map(data => this.serializer.fromJson(data) as T);
-      }
-
-      read(id: number): Observable<T> {
-        return this.httpClient
-          .get(`${this.url}/${this.endpoint}/${id}`)
-          .map((data: any) => this.serializer.fromJson(data) as T);
-      }
-
-      list(queryOptions: QueryOptions): Observable<T[]> {
-        return this.httpClient
-          .get(`${this.url}/${this.endpoint}?${queryOptions.toQueryString()}`)
-          .map((data: any) => this.convertData(data.items));
-      }
-
-      private convertData(data: any): T[] {
-        return data.map(item => this.serializer.fromJson(item));
-      }
-*/
 }

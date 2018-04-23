@@ -74,7 +74,7 @@ export class VehicleEditComponent implements OnInit {
 
   }
 
-  setSelected() {
+  async setSelected() {
     this.vehicleService.getVehicle(this.vehicleToSave.id).subscribe(v => {
       this.vehicleToSave = v;
       this.vehicleToSave.vehiclemakeid = this.vehicleToSave.vehicleMakeId;
@@ -105,9 +105,9 @@ export class VehicleEditComponent implements OnInit {
    * Dropdown change is detected here and vehicle makes are populated
    * with associated models.
    */
-  onVehicleMakeChange() {
+  async onVehicleMakeChange() {
     if (this.vehicleToSave.vehiclemakeid) {
-    var selectedMake = this.makes.find(
+    var selectedMake = await this.makes.find(
       m => m.id == this.vehicleToSave.vehiclemakeid
     );
   }
@@ -120,8 +120,8 @@ export class VehicleEditComponent implements OnInit {
    * Dropdown change is detected here and vehicle models are populated
    * with associated vehicle makes.
    */
-  onVehicleModelChange() {
-    var selectedModel = this.models.find(
+  async onVehicleModelChange() {
+    var selectedModel = await this.models.find(
       m => m.id == this.vehicleToSave.vehiclemodelid
     );
     this.vehicleToSave.vehicleModelId = selectedModel.id;
@@ -133,9 +133,14 @@ export class VehicleEditComponent implements OnInit {
    * Delete button logic is executed here and vehicle is deleted
    * according to vehicle id.
    */
-  delete(vehicle) {
+  async delete(vehicle) {
     if (confirm("Vehicle will be permanently deleted! Are you sure?")) {
-      this.vehicleTestService.delete(vehicle.id).subscribe();
-    }
+      await this.vehicleTestService.delete(vehicle.id)
+      // tslint:disable-next-line:no-shadowed-variable
+      .subscribe(vehicle => {
+        this.vehicle = vehicle;
+        this.router.navigate(["/vehicles/"]);
+      });
   }
+}
 }

@@ -48,28 +48,23 @@ export class VehicleTableComponent implements OnInit {
     private queryOptions: QueryOptions
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     // Get total numbers of vehicles
     // for pagination calculation
-    this.getTotalVehicles();
+    await this.getTotalVehicles();
 
-    // Get only one vehicle from service
-    /* Just for test
-    this.vehicleTestService
-      .read(71)
-      .subscribe(vehicle => (this.vehicle = vehicle));
-    */
-
-    this.vehiclemakeService
+    // Get all vehiclemakes
+    await this.vehiclemakeService
       .getVehicleMakes()
       .subscribe(vehiclemakes => (this.vehiclemakes = vehiclemakes));
 
-    this.loadVehicles(this.page);
+    await this.loadVehicles(this.page);
     this.setNumberOfPages();
   }
 
-  getTotalVehicles() {
-    this.vehicleService
+  // Total number of vehicles for pagination calculation
+  async getTotalVehicles() {
+    await this.vehicleService
       .getTotalVehicles()
       .subscribe(total => (this.total = total));
   }
@@ -103,7 +98,7 @@ export class VehicleTableComponent implements OnInit {
    * @param  name the name of the columnName, relative to the column in table
    * @return      void the vehicles that are sorted are updated according to query
    */
-  sortBy(columnName) {
+  async sortBy(columnName) {
     if (this.query.sortBy === columnName) {
       this.query.isSortAscending = !this.query.isSortAscending;
     } else {
@@ -112,7 +107,7 @@ export class VehicleTableComponent implements OnInit {
     }
     // Sets pagination page to 1 because it is sorted
     this.page = 1;
-    this.loadVehicles(this.page);
+    await this.loadVehicles(this.page);
   }
 
   /**
@@ -125,7 +120,7 @@ export class VehicleTableComponent implements OnInit {
    * @param  name page object from pagination component stores current clicked page number
    * @return      void the vehicles are updated from API
    */
-  loadVehicles(page) {
+  async loadVehicles(page) {
     /* First time loading of vehicles from database */
     if (isNaN(page)) {
       this.query.page = 1;
@@ -164,7 +159,7 @@ export class VehicleTableComponent implements OnInit {
     }
 
     // Service call to retrieve vehicles from backend
-    this.vehicleTestService
+    await this.vehicleTestService
       .list(this.queryOptions)
       .subscribe(vehicles => (this.vehicles = vehicles));
   }
@@ -179,7 +174,7 @@ export class VehicleTableComponent implements OnInit {
    * @param  name empty parameter
    * @return      void the vehicles are updated from API
    */
-  onFilterChange() {
-    this.loadVehicles(this.page);
+  async onFilterChange() {
+    await this.loadVehicles(this.page);
   }
 }

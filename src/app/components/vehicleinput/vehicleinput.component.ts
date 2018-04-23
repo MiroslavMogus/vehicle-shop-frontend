@@ -22,9 +22,9 @@ export class VehicleInputComponent implements OnInit {
     private vehicleService: VehicleService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
       this.vehicle = { id: 0, vehiclemakeid: 0, vehiclemodelid: 0, owneremail: '', vehicleMake: null, vehicleModel: null};
-      this.vehicleMakeService.getVehicleMakes().subscribe(vehicleMakes => {
+      await this.vehicleMakeService.getVehicleMakes().subscribe(vehicleMakes => {
       this.vehicleMakes = vehicleMakes;
     });
   }
@@ -36,22 +36,22 @@ export class VehicleInputComponent implements OnInit {
     });
   }
 
-  onVehicleMakeChange() {
-    let selectedVehicleMake = this.vehicleMakes.find(
+  async onVehicleMakeChange() {
+    let selectedVehicleMake = await this.vehicleMakes.find(
       m => m.id == this.vehicle.vehiclemakeid
     );
     this.vehicleModels = selectedVehicleMake.vehicleModels;
   }
 
-  onVehicleModelChange() {
-    let selectedVehicleMake = this.vehicleMakes.find(
+  async onVehicleModelChange() {
+    let selectedVehicleMake = await this.vehicleMakes.find(
       m => m.id == this.vehicle.vehiclemakeid
     );
     this.vehicleModels = selectedVehicleMake.vehicleModels;
   }
 
-  onVehicleEmailChange() {
-    let selectedVehicleMake = this.vehicleMakes.find(
+  async onVehicleEmailChange() {
+    let selectedVehicleMake = await this.vehicleMakes.find(
       m => m.id == this.vehicle.vehiclemakeid
     );
     this.vehicleModels = selectedVehicleMake.vehicleModels;
