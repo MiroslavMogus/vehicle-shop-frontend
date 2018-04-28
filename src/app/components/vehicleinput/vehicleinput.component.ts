@@ -13,7 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class VehicleInputComponent implements OnInit {
   vehicleMakes: any[];
   vehicleModels: any[];
-  vehicle: Vehicle;
+  vehicle = new Vehicle();
 
   constructor(
     private route: ActivatedRoute,
@@ -23,7 +23,6 @@ export class VehicleInputComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-      this.vehicle = { id: 0, vehiclemakeid: 0, vehiclemodelid: 0, owneremail: '', vehicleMake: null, vehicleModel: null};
       await this.vehicleMakeService.getVehicleMakes().subscribe(vehicleMakes => {
       this.vehicleMakes = vehicleMakes;
     });

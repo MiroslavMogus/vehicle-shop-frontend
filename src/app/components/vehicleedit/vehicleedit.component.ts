@@ -18,30 +18,15 @@ import { isNullOrUndefined } from "util";
   styleUrls: ["./vehicleedit.component.css"]
 })
 export class VehicleEditComponent implements OnInit {
-  vehicle: Vehicle;
   models: any[];
   makes: any[];
-  vehicleModels: VehicleModel = {
-    id: 0,
-    name: ""
-  };
-  vehicleMakes: VehicleMake = {
-    id: 0,
-    name: "",
-    vehicleModel: this.vehicleModels
-  };
-  vehicleToSave: SaveVehicle = {
-    id: 0,
-    vehiclemakeid: 1,
-    vehiclemodelid: 0,
-    vehicleModelId: 0,
-    owneremail: "",
-    ownerEmail: "",
-    vehicleMakeId: 0,
-    vehicleMake: this.vehicleMakes
-  };
-
   submitObject: any = {};
+
+  vehicleModels = new VehicleModel();
+  vehicleMakes = new VehicleMake();
+  vehicleToSave = new SaveVehicle();
+  vehicle = new Vehicle();
+  selectedMakeId: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -60,29 +45,44 @@ export class VehicleEditComponent implements OnInit {
    */
   ngOnInit() {
 
-    this.vehicleService.getVehicle(this.vehicleToSave.id).subscribe(v => {
+    // Received vehicle with specific id here
+    this.vehicleTestService.read(this.vehicleToSave.id).subscribe(v => {
       this.vehicleToSave = v;
-      this.setSelected();
-    });
+      this.selectedMakeId = this.vehicleToSave.vehiclemakeid;
 
+      // Loading of vehiclemakes
+      this.getVehicleMakes();
+    });
+  }
+
+  /**
+   * Loading of vehicle makes from backend.
+   */
+  getVehicleMakes() {
     this.vehicleMakeService.getVehicleMakes().subscribe(makes => {
       this.makes = makes;
-      this.vehicleToSave.vehicleMake = this.makes.find(
-        m => m.id == this.vehicleToSave.vehiclemakeid
-      );
-    });
 
+      this.setSelected();
+    });
   }
 
   async setSelected() {
-    this.vehicleService.getVehicle(this.vehicleToSave.id).subscribe(v => {
-      this.vehicleToSave = v;
-      this.vehicleToSave.vehiclemakeid = this.vehicleToSave.vehicleMakeId;
-      this.vehicleToSave.vehiclemodelid = this.vehicleToSave.vehicleModelId;
-      this.vehicleToSave.owneremail = this.vehicleToSave.ownerEmail;
-      this.onVehicleMakeChange();
-    });
+    // This is vehicleMake for specific vehicle
+    if (this.vehicleToSave.vehiclemakeid !== undefined) {
+      var selectedMake = this.makes.find(
+        m => m.id === this.vehicleToSave.vehiclemakeid
+      );
+
+      // This is example output
+      // console.log(this.vehicleToSave.vehicleMake);
+      // {id: 1, name: "Mercedes", vehicleModels: Array(2)}
+
+      // console.log(this.vehicleToSave.vehiclemodelid);
+      // 3
+
+      this.models = selectedMake ? selectedMake.vehicleModels : [];
   }
+}
 
   /**
    * submitObject is used to send only required data
@@ -91,8 +91,8 @@ export class VehicleEditComponent implements OnInit {
   async submit() {
     this.submitObject.id = this.vehicleToSave.id;
     this.submitObject.owneremail = this.vehicleToSave.owneremail;
-    this.submitObject.vehiclemodelid = this.vehicleToSave.vehicleModelId;
-    this.submitObject.vehiclemakeid = this.vehicleToSave.vehicleMakeId;
+    this.submitObject.vehiclemodelid = this.vehicleToSave.vehiclemodelid;
+    this.submitObject.vehiclemakeid = this.vehicleToSave.vehiclemakeid;
     await this.vehicleTestService
       .update(this.submitObject)
       .subscribe(vehicle => {
@@ -106,14 +106,21 @@ export class VehicleEditComponent implements OnInit {
    * with associated models.
    */
   async onVehicleMakeChange() {
-    if (this.vehicleToSave.vehiclemakeid) {
-    var selectedMake = await this.makes.find(
-      m => m.id == this.vehicleToSave.vehiclemakeid
-    );
-  }
-    this.models = selectedMake ? selectedMake.vehicleModels : [];
-    this.vehicleToSave.vehicleMakeId = selectedMake.id;
-    //this.vehicle.vehicleModelId = ;
+
+    this.selectedMakeId = this.vehicleToSave.vehiclemakeid;
+    console.log(this.selectedMakeId);
+
+    this.vehicleMakeService.getVehicleMakes().subscribe(makes => {
+      this.makes = makes;
+
+
+        let selectedMake = this.makes.find(m => m.id == this.selectedMakeId);
+
+        console.log(selectedMake);
+        this.models = selectedMake ? selectedMake.vehicleModels : [];
+
+    });
+
   }
 
   /**
@@ -135,12 +142,13 @@ export class VehicleEditComponent implements OnInit {
    */
   async delete(vehicle) {
     if (confirm("Vehicle will be permanently deleted! Are you sure?")) {
-      await this.vehicleTestService.delete(vehicle.id)
-      // tslint:disable-next-line:no-shadowed-variable
-      .subscribe(vehicle => {
-        this.vehicle = vehicle;
-        this.router.navigate(["/vehicles/"]);
-      });
+      await this.vehicleTestService
+        .delete(vehicle.id)
+        // tslint:disable-next-line:no-shadowed-variable
+        .subscribe(vehicle => {
+          this.vehicle = vehicle;
+          this.router.navigate(["/vehicles/"]);
+        });
+    }
   }
-}
 }

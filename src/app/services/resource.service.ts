@@ -33,7 +33,7 @@ export class ResourceService<T extends Resource> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.httpClient.delete(`${this.url}/${this.endpoint}/${id}`, {
       headers: headers
-    });
+    }).map((data: any) => this.serializer.fromJson(data) as T);
   }
 
   private convertData(data: any): T[] {
